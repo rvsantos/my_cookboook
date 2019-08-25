@@ -2,8 +2,11 @@ require 'rails_helper'
 
 feature 'User update recipe' do
   scenario 'successfully' do
+    recipe_type = RecipeType.create(name: 'Sobremesa')
+    RecipeType.create(name: 'Entrada')
+    cuisine = Cuisine.create(name: 'Brasilera')
     Recipe.create(title: 'Bolodecenoura', difficulty: 'Médio',
-                  recipe_type: 'Sobremesa', cuisine: 'Brasileira',
+                  recipe_type: recipe_type, cuisine: cuisine,
                   cook_time: 50, ingredients: 'Farinha, açucar, cenoura',
                   cook_method: 'Cozinhe a cenoura, corte em pedaços pequenos, misture com o restante dos ingredientes')
 
@@ -13,6 +16,7 @@ feature 'User update recipe' do
     click_on 'Editar'
 
     fill_in 'Título', with: 'Bolo de cenoura'
+    select 'Entrada', from: 'Tipo da Receita'
     fill_in 'Dificuldade', with: 'Médio'
     fill_in 'Tempo de Preparo', with: '45'
     fill_in 'Ingredientes', with: 'Cenoura, farinha, ovo, oleo de soja e chocolate'
@@ -29,8 +33,10 @@ feature 'User update recipe' do
   end
 
   scenario 'and must fill in all fields' do
+    recipe_type = RecipeType.create(name: 'Sobremesa')
+    cuisine = Cuisine.create(name: 'Brasilera')
     Recipe.create(title: 'Bolodecenoura', difficulty: 'Médio',
-                  recipe_type: 'Sobremesa', cuisine: 'Brasileira',
+                  recipe_type: recipe_type, cuisine: cuisine,
                   cook_time: 50, ingredients: 'Farinha, açucar, cenoura',
                   cook_method: 'Cozinhe a cenoura, corte em pedaços pequenos, misture com o restante dos ingredientes')
 
@@ -40,15 +46,12 @@ feature 'User update recipe' do
     click_on 'Editar'
 
     fill_in 'Título', with: ''
-    fill_in 'Tipo da Receita', with: ''
-    fill_in 'Cozinha', with: ''
     fill_in 'Dificuldade', with: ''
     fill_in 'Tempo de Preparo', with: ''
     fill_in 'Ingredientes', with: ''
     fill_in 'Como Preparar', with: ''
     click_on 'Enviar'
 
-
-    expect(page).to have_content('Você deve informar todos os dados da receita')
+    expect(page).to have_content('Não foi possível salvar a receita')
   end
 end

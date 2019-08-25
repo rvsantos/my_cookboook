@@ -2,6 +2,8 @@
 
 class RecipesController < ApplicationController
   before_action :set_params_id, only: %i[edit update show]
+  before_action :set_recipe_types_and_cuisines, only: %i[edit update new create]
+
   def index
     @recipes = Recipe.all
   end
@@ -15,7 +17,7 @@ class RecipesController < ApplicationController
     if @recipe.save
       redirect_to @recipe
     else
-      flash.now[:alert] = 'Você deve informar todos os dados da receita'
+      flash.now[:alert] = 'Não foi possível salvar a receita'
       render :new
     end
   end
@@ -26,7 +28,7 @@ class RecipesController < ApplicationController
     if @recipe.update(set_params)
       redirect_to @recipe
     else
-      flash.now[:alert] = 'Você deve informar todos os dados da receita'
+      flash.now[:alert] = 'Não foi possível salvar a receita'
       render :edit
     end
   end
@@ -40,7 +42,12 @@ class RecipesController < ApplicationController
   end
 
   def set_params
-    params.require(:recipe).permit(:title, :recipe_type, :cuisine, :difficulty,
+    params.require(:recipe).permit(:title, :recipe_type_id, :cuisine_id, :difficulty,
                                     :cook_time, :ingredients, :cook_method)
+  end
+
+  def set_recipe_types_and_cuisines
+    @recipe_types = RecipeType.all
+    @cuisines = Cuisine.all
   end
 end
