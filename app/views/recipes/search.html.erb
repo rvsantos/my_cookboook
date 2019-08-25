@@ -1,0 +1,7 @@
+<% if @recipe.any? %>
+  <%= @recipe.each do |recipe| %>
+    <h3><%= recipe.title %></h3>
+  <% end %>
+<% else %>
+    <h3> Receita não encontrada </h3>
+<% end %>
