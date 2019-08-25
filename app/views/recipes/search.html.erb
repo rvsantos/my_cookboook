@@ -1,6 +1,12 @@
 <% if @recipe.any? %>
-  <%= @recipe.each do |recipe| %>
-    <h3><%= recipe.title %></h3>
+  <% @recipe.each do |recipe| %>
+    <h3><%= link_to recipe.title, recipe %></h3>
+    <ul>
+      <li><%= recipe.recipe_type.name %></li>
+      <li><%= recipe.cuisine.name %></li>
+      <li><%= recipe.difficulty %></li>
+      <li><%= recipe.cook_time_min %></li>
+    </ul>
   <% end %>
 <% else %>
     <h3> Receita não encontrada </h3>

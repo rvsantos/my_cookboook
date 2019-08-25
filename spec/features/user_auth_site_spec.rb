@@ -21,6 +21,7 @@ feature 'User authenticates on site' do
 
     visit root_path
     click_on 'Entrar'
+
     within '#new_user' do
       fill_in "Email",	with: "email@email.com"
       fill_in "Password",	with: "123456"
