@@ -15,6 +15,7 @@ class RecipesController < ApplicationController
     if @recipe.save
       redirect_to @recipe
     else
+      flash.now[:alert] = 'Você deve informar todos os dados da receita'
       render :new
     end
   end
@@ -25,6 +26,7 @@ class RecipesController < ApplicationController
     if @recipe.update(set_params)
       redirect_to @recipe
     else
+      flash.now[:alert] = 'Você deve informar todos os dados da receita'
       render :edit
     end
   end
