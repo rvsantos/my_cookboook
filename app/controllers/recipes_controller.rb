@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class RecipesController < ApplicationController
-  before_action :set_params_id, only: %i[show]
+  before_action :set_params_id, only: %i[edit update show]
   def index
     @recipes = Recipe.all
   end
@@ -16,6 +16,16 @@ class RecipesController < ApplicationController
       redirect_to @recipe
     else
       render :new
+    end
+  end
+
+  def edit; end
+
+  def update
+    if @recipe.update(set_params)
+      redirect_to @recipe
+    else
+      render :edit
     end
   end
 
