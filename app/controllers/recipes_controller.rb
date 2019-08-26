@@ -3,6 +3,7 @@
 class RecipesController < ApplicationController
   before_action :set_params_id, only: %i[edit update show]
   before_action :set_recipe_types_and_cuisines, only: %i[edit update new create]
+  before_action :authenticate_user!, only: %i[new create edit update]
 
   def index
     @recipes = Recipe.all

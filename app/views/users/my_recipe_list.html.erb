@@ -1,0 +1,7 @@
+<h3>Listas do usuário <%= current_user.email %></h3>
+
+<% @recipe_lists.each do |recipe_list| %>
+  <%= link_to recipe_list.name, recipe_list %>
+<% end %>
+
+<%= link_to 'Voltar', root_path %>
