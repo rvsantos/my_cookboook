@@ -41,6 +41,8 @@ class RecipesController < ApplicationController
     @recipe = Recipe.where('title LIKE ?', "%#{params[:name]}%")
   end
 
+  def list; end
+
   private
 
   def set_params_id

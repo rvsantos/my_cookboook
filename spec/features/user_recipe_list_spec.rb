@@ -27,7 +27,7 @@ feature 'User create recipe list' do
     expect(page).to have_link(recipe_list.name)
   end
 
-  scenario 'and unique name' do
+  scenario 'and lists must be unique name' do
     user = create(:user)
     RecipeList.create(name: 'Churrasco', user: user)
 
@@ -38,5 +38,24 @@ feature 'User create recipe list' do
     click_on 'Criar lista'
 
     expect(page).to have_content('Já possui uma lista com este nome')
+  end
+
+  scenario 'and add recipe in list' do
+    user = create(:user)
+    recipe_type = create(:recipe_type)
+    cuisine = create(:cuisine)
+    recipe = create(:recipe, title: 'Salada de maionese', cuisine: cuisine,
+                    user: user, recipe_type: recipe_type)
+    other_recipe = create(:recipe, title: 'Sopa de feijão', cuisine: cuisine,
+                          user: user, recipe_type: recipe_type)
+    RecipeList.create(name: 'Churrasco', user: user)
+
+    login_as user
+    visit recipe_path(recipe)
+    click_on 'Adicionar a lista'
+
+    expect(page).to have_css('h3', text: 'Lista de Churrasco')
+    expect(page).to have_content(recipe.title)
+    expect(page).to_not have_content(other_recipe.title)
   end
 end

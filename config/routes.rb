@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root to: 'recipes#index'
 
   get 'recipes/search'
+  get 'recipes/list'
 
   get 'users/my_recipes'
   get 'users/my_recipe_list'
