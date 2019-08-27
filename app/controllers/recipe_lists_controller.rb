@@ -18,4 +18,10 @@ class RecipeListsController < ApplicationController
   def show
     @recipe_list = RecipeList.find(params[:id])
   end
+
+  def my_list
+    @recipe_lists = current_user.recipe_lists
+    @recipe_list_items = current_user.recipe_list_item
+  end
+
 end

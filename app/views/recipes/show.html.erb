@@ -11,9 +11,18 @@
 <p> Receita enviada por <%= @recipe.user.email %> </p>
 
 <% if user_signed_in? %>
-  <% if current_user && current_user.is_owner?(@recipe) %>
+  <%= form_tag add_list_recipe_path do %>
+    <%= label_tag :name, 'Lista' %>
+    <%= select_tag :name, options_from_collection_for_select(@recipe_list, :id, :name) %>
+    <%= submit_tag 'Adicionar' %>
+  <% end %>
+  <% if (current_user && current_user.is_owner?(@recipe)) || current_user.admin? %>
     <%= link_to 'Editar', edit_recipe_path %>
-    <%= link_to 'Adicionar a lista', recipes_list_path %>
+  <% end %>
+  <% if current_user.admin? %>
+    <%= link_to 'Published', published_path(@recipe), method: :post %>
+    <%# <%= link_to 'Reviewed', unpublished_recipes_path %> %>
   <% end %>
 <% end %>
+
 <%= link_to 'Voltar', root_path %>

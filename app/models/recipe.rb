@@ -9,6 +9,7 @@ class Recipe < ApplicationRecord
   has_many :recipe_list_item
   has_many :recipe_list, through: :recipe_list_item
 
+  enum status: { pending: 0, published: 10, reviewed: 20 }
 
   def cook_time_min
     "#{cook_time} minutos"

@@ -46,16 +46,30 @@ feature 'User create recipe list' do
     cuisine = create(:cuisine)
     recipe = create(:recipe, title: 'Salada de maionese', cuisine: cuisine,
                     user: user, recipe_type: recipe_type)
-    other_recipe = create(:recipe, title: 'Sopa de feijão', cuisine: cuisine,
-                          user: user, recipe_type: recipe_type)
     RecipeList.create(name: 'Churrasco', user: user)
 
     login_as user
     visit recipe_path(recipe)
-    click_on 'Adicionar a lista'
+    select 'Churrasco', from: 'Lista'
+    click_on 'Adicionar'
 
-    expect(page).to have_css('h3', text: 'Lista de Churrasco')
-    expect(page).to have_content(recipe.title)
-    expect(page).to_not have_content(other_recipe.title)
+    expect(page).to have_content('Receita adicionada com sucesso')
+  end
+
+  xscenario 'and must be a unique recipe on list' do
+    user = create(:user)
+    recipe_type = create(:recipe_type)
+    cuisine = create(:cuisine)
+    recipe = create(:recipe, title: 'Salada de maionese', cuisine: cuisine,
+                    user: user, recipe_type: recipe_type)
+    recipe_list = RecipeList.create(name: 'Churrasco', user: user)
+    RecipeListItem.create(recipe_id: recipe, recipe_list_id: recipe_list)
+
+    login_as user
+    visit recipe_path(recipe)
+    select 'Churrasco', from: 'Lista'
+    click_on 'Adicionar'
+
+    expect(page).to have_content('Esta receita já esta incluida nesta lista')
   end
 end

@@ -3,18 +3,23 @@
 
 <% if user_signed_in? %>
   <%= link_to 'Enviar uma receita', new_recipe_path %>
-  <%= link_to 'Minhas receitas', users_my_recipes_path %>
+  <%= link_to 'Minhas receitas', my_recipes_path %>
   <%= link_to 'Criar lista de receitas', new_recipe_list_path %>
-  <%= link_to 'Ver listas', users_my_recipe_list_path %>
+  <%= link_to 'Ver listas', my_list_path %>
+  <% if current_user.admin? %>
+    <%= link_to 'Receitas pendentes', list_pending_path %>
+  <% end %>
 <% end %>
 <%= link_to 'Enviar tipo de receita', new_recipe_type_path %>
 
 <% @recipes.each do |recipe| %>
-  <h1><%= link_to recipe.title, recipe %></h1>
-  <ul>
-    <li><%= recipe.recipe_type.name %></li>
-    <li><%= recipe.cuisine.name %></li>
-    <li><%= recipe.difficulty %></li>
-    <li><%= recipe.cook_time_min %></li>
-  </ul>
+  <% if recipe.published? %>
+    <h1><%= link_to recipe.title, recipe %></h1>
+    <ul>
+      <li><%= recipe.recipe_type.name %></li>
+      <li><%= recipe.cuisine.name %></li>
+      <li><%= recipe.difficulty %></li>
+      <li><%= recipe.cook_time_min %></li>
+    </ul>
+  <% end %>
 <% end %>

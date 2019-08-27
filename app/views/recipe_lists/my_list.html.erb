@@ -2,6 +2,9 @@
 
 <% @recipe_lists.each do |recipe_list| %>
   <%= link_to recipe_list.name, recipe_list %>
+  <% @recipe_list_items.each do |recipe_item| %>
+    <%= recipe_item.recipe.title %>
+  <% end %>
 <% end %>
 
 <%= link_to 'Voltar', root_path %>
