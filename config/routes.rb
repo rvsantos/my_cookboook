@@ -16,4 +16,10 @@ Rails.application.routes.draw do
   get 'search', to: 'recipes#search'
   get 'list_pending', to: 'recipes#list_pending'
 
+  namespace :api do
+    namespace :v1 do
+      resources :recipes, only: %i[show]
+      resources :recipe_types, only: %i[show new create]
+    end
+  end
 end
