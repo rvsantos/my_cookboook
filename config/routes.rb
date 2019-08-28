@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   resources :recipes, only: %i[index new create edit update show] do
     post 'add_list', on: :member
+    post 'published', on: :member
+    post 'reviewed', on: :member
   end
   resources :recipe_lists, only: %i[new create show]
   resources :recipe_types, only: %i[new create]
@@ -13,6 +15,5 @@ Rails.application.routes.draw do
   get 'my_list', to: 'recipe_lists#my_list'
   get 'search', to: 'recipes#search'
   get 'list_pending', to: 'recipes#list_pending'
-  post 'published', to: 'recipes#published'
 
 end

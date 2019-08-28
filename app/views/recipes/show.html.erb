@@ -19,10 +19,6 @@
   <% if (current_user && current_user.is_owner?(@recipe)) || current_user.admin? %>
     <%= link_to 'Editar', edit_recipe_path %>
   <% end %>
-  <% if current_user.admin? %>
-    <%= link_to 'Published', published_path(@recipe), method: :post %>
-    <%# <%= link_to 'Reviewed', unpublished_recipes_path %> %>
-  <% end %>
 <% end %>
 
 <%= link_to 'Voltar', root_path %>

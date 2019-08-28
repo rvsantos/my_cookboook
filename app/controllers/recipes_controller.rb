@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class RecipesController < ApplicationController
-  before_action :set_params_id, only: %i[edit update show add_list]
+  before_action :set_params_id, only: %i[edit update show add_list published reviewed]
   before_action :set_recipe_types_and_cuisines, only: %i[edit update new create]
-  before_action :authenticate_user!, only: %i[new create edit update]
+  before_action :authenticate_user!, only: %i[new create edit update list_pendind]
+  before_action :authorized_admin, only: %i[list_pending published reviewed]
 
   def index
     @recipes = Recipe.all
@@ -63,18 +64,28 @@ class RecipesController < ApplicationController
   end
 
   def list_pending
-    @recipes = Recipe.pending
+    @recipes = Recipe.all
   end
 
   def published
-    current_user.recipes.find(params[:id]).published!
-    # @recipe.published!
-    # current_user.recipes.status.published!
-    flash[:notice] = 'Receita publicada com sucesso'
-    redirect_to :list_pending
+    if @recipe.published!
+      flash[:notice] = 'Receita publicada com sucesso'
+      redirect_to :list_pending
+    end
+  end
+
+  def reviewed
+    if @recipe.reviewed!
+      flash[:notice] = 'Receita rejeitada'
+      redirect_to :list_pending
+    end
   end
 
   private
+
+  def authorized_admin
+    return redirect_to root_path unless current_user.admin?
+  end
 
   def set_params_id
     @recipe = Recipe.find(params[:id])

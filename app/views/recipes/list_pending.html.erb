@@ -1,3 +1,8 @@
 <% @recipes.each do |recipe| %>
-  <h3><%= link_to recipe.title, recipe %></h3>
+  <div id="recipe-<%= recipe.id %>">
+    <h3><%= link_to recipe.title, recipe %></h3>
+    <%= recipe.status %> <br>
+    <%= link_to 'Published', published_recipe_path(recipe), method: :post %>
+    <%= link_to 'Reviewed', reviewed_recipe_path(recipe), method: :post %>
+  </div>
 <% end %>

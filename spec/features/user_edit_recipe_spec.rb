@@ -9,7 +9,7 @@ feature 'User update recipe' do
     Recipe.create(title: 'Bolodecenoura', difficulty: 'Médio', user: user,
                   recipe_type: recipe_type, cuisine: cuisine,
                   cook_time: 50, ingredients: 'Farinha, açucar, cenoura',
-                  cook_method: 'Cozinhe a cenoura, corte em pedaços pequenos, misture com o restante dos ingredientes')
+                  cook_method: 'Cozinhe a cenoura, corte em pedaços pequenos, misture com o restante dos ingredientes', status: 10)
 
     # simula a ação do usuário
     login_as user
@@ -41,7 +41,7 @@ feature 'User update recipe' do
     Recipe.create(title: 'Bolodecenoura', difficulty: 'Médio', user: user,
                   recipe_type: recipe_type, cuisine: cuisine,
                   cook_time: 50, ingredients: 'Farinha, açucar, cenoura',
-                  cook_method: 'Cozinhe a cenoura, corte em pedaços pequenos, misture com o restante dos ingredientes')
+                  cook_method: 'Cozinhe a cenoura, corte em pedaços pequenos, misture com o restante dos ingredientes', status: 10)
 
     # simula a ação do usuário
     login_as user
@@ -63,7 +63,7 @@ feature 'User update recipe' do
     user = create(:user)
     recipe_type = create(:recipe_type)
     cuisine = create(:cuisine)
-    recipe = create(:recipe, user: user, cuisine: cuisine, recipe_type: recipe_type)
+    recipe = create(:recipe, user: user, cuisine: cuisine, recipe_type: recipe_type, status: 10)
 
     visit root_path
     click_on recipe.title
@@ -76,7 +76,7 @@ feature 'User update recipe' do
     user = create(:user)
     recipe_type = create(:recipe_type)
     cuisine = create(:cuisine)
-    recipe = create(:recipe, user: user, cuisine: cuisine, recipe_type: recipe_type)
+    recipe = create(:recipe, user: user, cuisine: cuisine, recipe_type: recipe_type, status: 10)
 
     login_as other_user
     visit edit_recipe_path(recipe)
